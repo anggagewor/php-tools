@@ -1,0 +1,21 @@
+/vendor/
+/composer.lock
+
+# PHPStan cache
+/phpstan-result-cache.php
+
+# Pint cache (kalo nanti ditambah)
+.pint.cache
+
+# VS Code & JetBrains IDE stuff
+.vscode/
+.idea/
+*.iml
+
+# OS & editor cache
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.bak
+*.tmp

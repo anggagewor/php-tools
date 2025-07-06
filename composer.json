@@ -1,0 +1,25 @@
+{
+    "name": "anggagewor/php-tools",
+    "description": "php tools",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Anggagewor\\PhpTools\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Angga Purnama",
+            "email": "anggagewor@gmail.com"
+        }
+    ],
+    "scripts": {
+        "analyze": "phpstan analyse"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "larastan/larastan": "^3.5",
+        "laravel/pint": "^1.23"
+    }
+}
