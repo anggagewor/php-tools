@@ -8,10 +8,12 @@ Kumpulan tool CLI pribadi yang dibuat untuk bantu development PHP, Laravel, dan 
 
 ```
 php-tools/
-├── composer.json         # Buat autoload & dependency management
-├── phpstan.neon          # Config PHPStan custom
-├── bin/                  # (opsional) custom tool/command
-└── [tool-name].php       # Bisa simpan helper script CLI pribadi
+├── bin/console            # Entry point CLI (Symfony Console)
+├── composer.json          # Autoload & dependency management
+├── phpstan.neon           # Config PHPStan custom
+├── stubs/command.stub     # Template command generator
+├── src/Commands/          # Semua custom command disimpan di sini
+└── vendor/                # Composer dependencies
 ```
 
 ---
@@ -30,19 +32,58 @@ composer init
 
 ---
 
-## 🚀 Menjalankan PHPStan
+## 🚀 CLI Tools
+
+Jalankan:
 
 ```bash
-vendor/bin/phpstan analyse
+php bin/console
 ```
 
-Kalau lo mau shortcut:
+### ✨ Contoh Command:
+
+| Command        | Keterangan                       |
+| -------------- | -------------------------------- |
+| `hello`        | Sample command                   |
+| `make:command` | Generate command baru pakai stub |
+
+---
+
+## 🛠 Generate Command Baru
 
 ```bash
-composer stan
+php bin/console make:command ToolPingCommand tool:ping "Ping the system"
 ```
 
-Pastikan `composer.json` lo punya script:
+Akan membuat file:
+
+```
+src/Commands/ToolPingCommand.php
+```
+
+Isi class diambil dari `stubs/command.stub`.
+
+### ✨ Command akan auto-terdaftar
+
+Selama class punya attribute `#[AsCommand(...)]`, lo gak perlu register manual.
+
+---
+
+## 🥪 Tujuan Directory Ini
+
+* Simpan tool seperti:
+
+  * `phpstan`, `pint`, `csfixer`, dsb
+  * Script helper (convertor, scanner, CLI task)
+* Bisa direuse lintas project tanpa re-setup
+* Terpisah dari project Laravel utama
+
+
+---
+
+## 📜 Composer Scripts
+
+Shortcut untuk tools via `composer.json`:
 
 ```json
 "scripts": {
@@ -50,34 +91,21 @@ Pastikan `composer.json` lo punya script:
 }
 ```
 
----
+Lalu jalankan:
 
-## 🧪 Tujuan Directory Ini
-
-* Menyimpan tool seperti:
-
-  * `phpstan`, `pint`, `csfixer`, dll
-  * Script helper (convertor, scanner, dsb)
-  * Analyzer untuk project Laravel/DDD
-* Memisahkan tooling dari aplikasi production
-* Bisa direuse lintas project tanpa re-setup
-
----
-
-## 🔐 Tips
-
-Kalau lo punya tool sensitif (API key, dsb):
-
-* Simpan `.env` lokal di sini
-* Jangan lupa tambahin `.gitignore`
+```bash
+composer stan
+```
 
 ---
 
 ## ✅ Todo
 
-* [ ] Tambahin config Laravel Pint
-* [ ] Tambahin helper CLI
-* [ ] Tambah testing tools kalau perlu
+* [x] Auto-register Symfony command via attribute
+* [x] Stub-based command generator (`make:command`)
+* [ ] `--force` untuk overwrite command
+* [ ] Mode interaktif `make:command`
+* [ ] Tambah tools lain (tester, faker, dsb)
 
 ---
 
