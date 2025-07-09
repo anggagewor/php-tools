@@ -21,5 +21,9 @@
         "phpstan/phpstan": "^2.1",
         "larastan/larastan": "^3.5",
         "laravel/pint": "^1.23"
+    },
+    "require": {
+        "symfony/console": "^7.3",
+        "symfony/finder": "^7.3"
     }
 }

@@ -1,0 +1,40 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__.'/../vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Finder\Finder;
+
+$application = new Application('PHP Tools by Angga', '0.1.0');
+
+$finder = new Finder;
+$finder->files()->in(__DIR__.'/../src/Commands')->name('*.php');
+
+foreach ($finder as $file) {
+    $relativePath = $file->getRelativePathname();
+    $class = 'Anggagewor\\PhpTools\\Commands\\'.str_replace(['/', '.php'], ['\\', ''], $relativePath);
+
+    if (! class_exists($class)) {
+        continue;
+    }
+
+    $reflection = new \ReflectionClass($class);
+
+    if ($reflection->isSubclassOf(Command::class)) {
+        $attributes = $reflection->getAttributes(AsCommand::class);
+        if (count($attributes) > 0) {
+            try {
+                $application->add($reflection->newInstance());
+            } catch (ReflectionException $e) {
+            }
+        }
+    }
+}
+
+try {
+    $application->run();
+} catch (Exception $e) {
+}
